@@ -1,0 +1,32 @@
+{
+  "name": "ez-auth",
+  "version": "1.0.0",
+  "description": "commandline tool to create a boiler plate for node js and authentication on the top of passport JS, mongoose supported by default",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": "./cli.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pranav1812/ezAuth.git"
+  },
+  "keywords": [
+    "command-line",
+    "nodeJS",
+    "boiler-plate",
+    "setup",
+    "create-project",
+    "passportJS"
+  ],
+  "author": "pranav",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pranav1812/ezAuth/issues"
+  },
+  "homepage": "https://github.com/pranav1812/ezAuth#readme",
+  "dependencies": {
+    "commander": "^6.1.0",
+    "inquirer": "^7.3.3"
+  }
+}
