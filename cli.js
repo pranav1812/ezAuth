@@ -3,6 +3,7 @@
 const program= require('commander')
 const {prompt} = require('inquirer')
 
+// send questions to src/cliQuestions.js
 const runQuestions= [
     {
         type: 'confirm',
@@ -20,21 +21,35 @@ const runQuestions= [
 
     {
         type: 'input',
-        name: 'modelLocation',
-        message: 'if you are using mongo db, enter absolute location of your models file'
+        name: 'authModels',
+        message: 'names of models (or collections you want authenticated)'
+    },
+
+    {
+        type: 'input',
+        name: 'unAuthModels',
+        message: 'names of models (or collections you don\'t want authenticated)'
+    },
+
+    {
+        type: 'input',
+        name: 'cookieSecret',
+        message: 'enter a cookie secret for basic server setup'
+    },
+
+    {
+        type: 'confirm',
+        name: 'email',
+        message: 'do you want email login?',
+        default: false
     },
 
     {
         type: 'checkbox',
         name: 'providers',
-        message: 'select auth providers',
+        message: 'select external auth providers',
         choices:[
-            {   
-                value: "email",
-                checked: true
-            },
-            {value: "Facebook"}, {value: "Twitter"}, {value: "Github"}, { value: "Google" },             
-            
+            {value: "Facebook"}, {value: "Twitter"}, {value: "Github"}, { value: "Google" }                       
         ]
     }
 ]
@@ -86,20 +101,6 @@ const npmQuestions=[
     }
 ]
 
-const routeSelection=[
-    {
-        type: 'checkbox',
-        name: 'routesRequired',
-        message: 'select routes',
-        choices:[
-            {   
-                value: "get",
-                checked: true
-            },
-            {value: "post"}, {value: "update"}, {value: "delete"}, { value: "create" }                        
-        ]
-    }
-]
 
 const providerQuestions=[
     {
@@ -113,16 +114,21 @@ const providerQuestions=[
         message: 'secret key'
     },
     {
-        type: 'checkbox',
-        name: 'scope',
-        message: 'select details of user you would require',
-        choices:[{
-                value: 'profile',
-                checked: true
-            }, {value: 'contacts'}
-        ]
-    }
+        type: 'input',
+        name: 'callbackUrl',
+        message: 'callback url',
+        default: 'http://localhost:3000/'
+    },
+    
 ]
+
+// const smtpQuestions=[
+//     {
+//         type: 'input',
+//         name: 'mail'
+//     }
+// ]
+
 // hardcoded project info
 program
     .version('1.0.0')
@@ -147,28 +153,13 @@ program
                 for(var i=0;i<answers.providers.length; i++){
                     console.log(`\n ${answers.providers[i]} config \n`)
                     var wait= await prompt(providerQuestions)
-                    // if(wait) console.log(wait)
+                    // logic on wait
                 }
             }
-            // answers.providers.forEach(pro=>{
-            //     console.log(pro)
-            //     prompt(providerQuestions).then(answers=>console.log(answers))
-            // })
+            
         })
     })
 
-// program
-//     .command('cdm')
-//     .alias('d')
-//     .description("test2")
-//     .action(()=>{
-//         prompt(advancedQuestions).then(answers=> {
-//             // change
-//             console.log(answers)
-//             answers.providers.forEach(pro=>{
-//                 prompt(basicQuestions)
-//             })
-//         })
-//     })
+
 
 program.parse(process.argv)
