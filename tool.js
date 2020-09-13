@@ -1,16 +1,13 @@
 const fs = require("fs");
+
 // const path = require("path");
-// const util = require("util");
 
-// const t = require("./template");
-// //! if folder already exists?
-
-// async function createFolder(name, path) {
-//   const pathname = `${path}/${name}`;
-//   return fs.mkdir(pathname, { recursive: true }, (err) => {
-//     if (err) throw err;
-//   });
-// }
+async function createFolder(name) {
+  const pathname = `${name}`;
+  return fs.mkdir(pathname, { recursive: true }, (err) => {
+    if (err) throw err;
+  });
+}
 
 // async function copyFile(src, dest) {
 //   return fs.copyFile(src, dest, fs.constants.COPYFILE_EXCL, (err) => {
@@ -18,18 +15,6 @@ const fs = require("fs");
 //     //! if file already exists ... see what to do
 //   });
 // }
-
-// async function abc() {
-//   await createFolder("abcTEMP", "./");
-//   await copyFile("./server.js", "./abcTEMP/test");
-//   console.log("a");
-//   if (fs.existsSync(`./abcTEMP`)) console.log("aaaaaaa");
-//   if (fs.existsSync(`./abcTEMP/test`)) console.log("bbbbb");
-// }
-
-// // abc();
-// console.log("test");
-// console.log(t("user", "../models/user"));
 
 function createRoute(name, modelPath) {
   fs.writeFile(
@@ -58,10 +43,10 @@ function createAuth(name, modelPath) {
     }
   );
 }
-function createPassportInit(modelsList) {
+function createPassport_Serialize_Deserialize(authRoutes) {
   fs.writeFile(
-    `config/passportInit.js`,
-    require("./templates/serializeUser")(modelsList),
+    `config/passport_Serialize_Deserialize.js`,
+    require("./templates/serializeUser")(authRoutes),
     function (err) {
       if (err) console.log(err);
     }
@@ -76,13 +61,51 @@ function createMiddleware(name) {
     }
   );
 }
+function createServer(routes, authRoutes) {
+  fs.writeFile(
+    `index.js`,
+    require("./templates/index")(routes, authRoutes),
+    function (err) {
+      if (err) console.log(err);
+    }
+  );
+}
 
-const modelsList = ["../models/user", "../models/doctor"];
+function createModel(route) {
+  fs.writeFile(
+    `models/${route}.js`,
+    require("./templates/model")(route),
+    function (err) {
+      if (err) console.log(err);
+    }
+  );
+}
 
-createRoute("doctor", "../models/doctor");
-createAuth("doctor", "../models/doctor");
-createMiddleware("doctor");
-createRoute("user", "../models/user");
-createAuth("user", "../models/user");
-createMiddleware("user");
-createPassportInit(modelsList);
+function intiFolders() {
+  createFolder("./routes");
+  createFolder("./config");
+  createFolder("./models");
+  createFolder("./middleware");
+}
+
+function init(routes, authRoutes) {
+  intiFolders();
+  routes.forEach((r) => {
+    createModel(r);
+    createRoute(r, `../models/${r}`);
+  });
+  authRoutes.forEach((r) => {
+    createAuth(r, `../models/${r}`);
+    createMiddleware(r);
+  });
+  createPassport_Serialize_Deserialize(authRoutes);
+
+  //create package.json
+  //dotenv
+  createServer(routes, authRoutes);
+
+  console.log("done");
+}
+const routes = ["user", "doctor", "blogs"];
+const authRoutes = ["user", "doctor"];
+init(routes, authRoutes);

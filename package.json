@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/pranav1812/ezAuth#readme",
   "dependencies": {
+    "cli": "^1.0.1",
     "commander": "^6.1.0",
     "inquirer": "^7.3.3"
   }

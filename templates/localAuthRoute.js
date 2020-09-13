@@ -4,13 +4,13 @@ module.exports = function (name) {
     const router = require("express").Router();
     const passport = require("passport");
     
-    const isAuthenticated = require("../middleware/auth");
+    const isAuthenticated = require("../middleware/${name}Auth");
     
-    router.post('/${name}/login', passport.authenticate("${name}"), (req, res) => {
+    router.post('/login', passport.authenticate("${name}"), (req, res) => {
       return res.send(req.user);
     });
     
-    router.get("/${name}/logout", isAuthenticated, (req, res) => {
+    router.get("/logout", isAuthenticated, (req, res) => {
       req.logout();
       res.send("logged out");
     });
