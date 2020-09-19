@@ -16,3 +16,15 @@ Commands:
     3. help : to view all commands and options
     
     
+ToDo:
+    joi validation (schema diya hua ho)
+    different strategies for different collections
+    write to .env 
+    modularity
+    thodi achhi approach for template copying
+    firebase support (separate command)
+    node mailer setup
+    strategy templates 
+    path for target directory
+    convert to npm package
+    give options for more commands
