@@ -1,3 +1,5 @@
+// all file system manipulation functions 
+
 const fs = require("fs");
 
 // const path = require("path");
@@ -19,7 +21,7 @@ async function createFolder(name) {
 function createRoute(name, modelPath) {
   fs.writeFile(
     `routes/${name}.js`,
-    require("./templates/route")(name, modelPath),
+    require("../templates/route")(name, modelPath),
     function (err) {
       if (err) console.log(err);
     }
@@ -29,7 +31,7 @@ function createRoute(name, modelPath) {
 function createAuth(name, modelPath) {
   fs.writeFile(
     `routes/auth${name}.js`,
-    require("./templates/localAuthRoute")(name),
+    require("../templates/localAuthRoute")(name),
     function (err) {
       if (err) console.log(err);
     }
@@ -37,7 +39,7 @@ function createAuth(name, modelPath) {
 
   fs.writeFile(
     `config/${name}-passportLocal.js`,
-    require("./templates/passportLocalStrategy")(name, modelPath),
+    require("../templates/passportLocalStrategy")(name, modelPath),
     function (err) {
       if (err) console.log(err);
     }
@@ -46,7 +48,7 @@ function createAuth(name, modelPath) {
 function createPassport_Serialize_Deserialize(authRoutes) {
   fs.writeFile(
     `config/passport_Serialize_Deserialize.js`,
-    require("./templates/serializeUser")(authRoutes),
+    require("../templates/serializeUser")(authRoutes),
     function (err) {
       if (err) console.log(err);
     }
@@ -55,7 +57,7 @@ function createPassport_Serialize_Deserialize(authRoutes) {
 function createMiddleware(name) {
   fs.writeFile(
     `middleware/${name}Auth.js`,
-    require("./templates/authMiddleware")(name),
+    require("../templates/authMiddleware")(name),
     function (err) {
       if (err) console.log(err);
     }
@@ -64,7 +66,7 @@ function createMiddleware(name) {
 function createServer(routes, authRoutes) {
   fs.writeFile(
     `index.js`,
-    require("./templates/index")(routes, authRoutes),
+    require("../templates/index")(routes, authRoutes),
     function (err) {
       if (err) console.log(err);
     }
@@ -74,7 +76,7 @@ function createServer(routes, authRoutes) {
 function createModel(route) {
   fs.writeFile(
     `models/${route}.js`,
-    require("./templates/model")(route),
+    require("../templates/model")(route),
     function (err) {
       if (err) console.log(err);
     }
