@@ -108,4 +108,4 @@ function init(routes, authRoutes) {
 }
 const routes = ["user", "doctor", "blogs"];
 const authRoutes = ["user", "doctor"];
-init(routes, authRoutes);
+module.exports= init;

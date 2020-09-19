@@ -2,6 +2,8 @@
 
 const program= require('commander')
 const {prompt} = require('inquirer')
+const init = require('./tool')
+const tool= require('./tool')
 
 // send questions to src/cliQuestions.js
 const runQuestions= [
@@ -21,14 +23,14 @@ const runQuestions= [
 
     {
         type: 'input',
-        name: 'authModels',
-        message: 'names of models (or collections you want authenticated)'
+        name: 'models',
+        message: 'all collections you want'
     },
 
     {
         type: 'input',
-        name: 'unAuthModels',
-        message: 'names of models (or collections you don\'t want authenticated)'
+        name: 'authModels',
+        message: 'names of models (or collections you want authenticated)'
     },
 
     {
@@ -141,6 +143,8 @@ program
     .description("setup the complete boiler plate by answering a few questions")
     .action(()=>{
         prompt(runQuestions).then(async(answers)=> {
+
+            tool(answers.models.split(' '), answers.authModels.split(' ') )
             var pass= false
             if(answers.npmInit){
                 var npmAnswers= await prompt(npmQuestions)
@@ -153,7 +157,7 @@ program
                 for(var i=0;i<answers.providers.length; i++){
                     console.log(`\n ${answers.providers[i]} config \n`)
                     var wait= await prompt(providerQuestions)
-                    // logic on wait
+                    
                 }
             }
             
