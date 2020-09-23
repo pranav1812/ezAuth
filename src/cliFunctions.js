@@ -29,3 +29,37 @@ cliFunctions.runFunction= ()=>{
         
     })
 }
+
+cliFunctions.firebaseFunction=()=>{
+    prompt(questions.firebaseSetup).then(async(answers)=>{
+        if(answers.services.includes('authentication')){
+            var firebaseAuthAnswers= await prompt(questions.firebaseAuth)
+
+        }
+        if(answers.services.includes('database')){
+            var dbType= await prompt(questions.firebaseDb)
+        }
+    })
+}
+
+cliFunctions.reactFunction=()=>{
+    prompt(questions.reactSetup).then(async(answers)=>{
+        console.log(answers)
+    })
+}
+
+cliFunctions.reactFirebaseFunction=async()=>{
+    var reactSetupAnswers= await prompt(questions.reactSetup)
+    var firebaseAnswers= await prompt(questions.firebaseSetup)
+
+    if(firebaseAnswers.services.includes('authentication')){
+        var firebaseAuthAnswers= await prompt(questions.firebaseAuth)
+
+    }
+    if(firebaseAnswers.services.includes('database')){
+        var dbType= await prompt(questions.firebaseDb)
+    }
+    if(firebaseAnswers.services.includes('database')){
+        console.log("storage bhi milegi")
+    }
+}
