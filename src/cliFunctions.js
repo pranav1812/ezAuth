@@ -1,6 +1,7 @@
 // functions for actions
 const {prompt} = require('inquirer')
 const questions= require('./cliQuestions')
+const fileFunctions= require('./fileFunctions')
 
 var cliFunctions={}
 module.exports= cliFunctions
@@ -12,7 +13,7 @@ cliFunctions.runFunction= ()=>{
         var pass= false
         if(answers.npmInit){
             var npmAnswers= await prompt(questions.npmQuestions)
-            console.log(npmAnswers)
+            fileFunctions.packageJson(npmAnswers)    
         }else{
             pass= true
         }
@@ -23,6 +24,8 @@ cliFunctions.runFunction= ()=>{
                 var wait= await prompt(questions.providerQuestions)
                 
             }
-        }        
+        }  
+        
+        
     })
 }

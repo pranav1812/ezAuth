@@ -41,7 +41,7 @@ questions.runQuestions= [
 questions.npmQuestions=[  
     {
         type: 'input',
-        name: 'packageName',
+        name: 'name',
         message: 'package name',
         default: 'sample-project'
     },
@@ -58,14 +58,14 @@ questions.npmQuestions=[
     },
     {
         type: 'input',
-        name: 'entry',
+        name: 'main',
         message: 'entry point',
         default: 'index.js'
     },
     {
         type: 'input',
-        name: 'git',
-        message: 'git repository'
+        name: 'keywords',
+        message: 'keywords'
     },
     {
         type: 'input',
@@ -75,13 +75,8 @@ questions.npmQuestions=[
     {
         type: 'input',
         name: 'licence',
-        message: 'licence'
-    },
-    {
-        type: 'confirm',
-        name: 'ok',
-        message: 'package.json file will be created with the creadentials you provided. You can always edit it...',
-        default: true
+        message: 'licence',
+        default: 'ISC'
     }
 ]
 
