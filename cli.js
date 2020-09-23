@@ -15,6 +15,22 @@ program
     .description("setup the complete boiler plate by answering a few questions")
     .action(cliFunctions.runFunction)
 
+program
+    .command('reactSetup')
+    .alias('rs')
+    .description("sets up versatile boiler plate for react")
+    .action(cliFunctions.reactFunction)
 
+program
+    .command('reactFirebaseSetup')
+    .alias('rfs')
+    .description("sets up versatile boiler plate for react and firebase for serverless rendering")
+    .action(cliFunctions.reactFirebaseFunction)
+
+program
+    .command('firebaseSetup')
+    .alias('fs')
+    .description("sets up simple firebase boiler plate")
+    .action(cliFunctions.firebaseFunction)
 
 program.parse(process.argv)

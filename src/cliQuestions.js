@@ -11,37 +11,49 @@ questions.runQuestions= [
     },
 
     {
-        type: 'confirm',
-        name: 'mongo',
-        message: 'are you using mongo db? : mongoose will be used',
-        default: true
+        type: 'input',
+        name: 'mongoUrl',
+        message: 'url of mongo database? This location will be stored in .env file, you can manually change later'        
     },
 
     {
         type: 'input',
-        name: 'modelLocation',
-        message: 'if you are using mongo db, enter absolute location of your models file'
+        name: 'authRoutes',
+        message: 'enter names of user collections (space separated), eg. clients leads admins'
+    },
+
+    {
+        type: 'input',
+        name: 'unAuthRoutes',
+        message: 'enter names of normal collections, eg. items sales orders'
+    },
+
+    {
+        type: 'confirm',
+        name: 'multerSetup',
+        message: 'do you want to setUp multer? : multer is used to store files in mongo DB',
+        default: false
+    },
+
+    {
+        type: 'confirm',
+        name: 'emailAuth',
+        message: 'do you want email authentication?',
+        default: false
     },
 
     {
         type: 'checkbox',
         name: 'providers',
         message: 'select auth providers',
-        choices:[
-            {   
-                value: "email",
-                checked: true
-            },
-            {value: "Facebook"}, {value: "Twitter"}, {value: "Github"}, { value: "Google" },             
-            
-        ]
+        choices:["Facebook", "Twitter", "Github", "Google"]
     }
 ]
 
 questions.npmQuestions=[  
     {
         type: 'input',
-        name: 'packageName',
+        name: 'name',
         message: 'package name',
         default: 'sample-project'
     },
@@ -58,14 +70,14 @@ questions.npmQuestions=[
     },
     {
         type: 'input',
-        name: 'entry',
+        name: 'main',
         message: 'entry point',
         default: 'index.js'
     },
     {
         type: 'input',
-        name: 'git',
-        message: 'git repository'
+        name: 'keywords',
+        message: 'keywords'
     },
     {
         type: 'input',
@@ -75,13 +87,8 @@ questions.npmQuestions=[
     {
         type: 'input',
         name: 'licence',
-        message: 'licence'
-    },
-    {
-        type: 'confirm',
-        name: 'ok',
-        message: 'package.json file will be created with the creadentials you provided. You can always edit it...',
-        default: true
+        message: 'licence',
+        default: 'ISC'
     }
 ]
 
@@ -95,7 +102,7 @@ questions.routeSelection=[
                 value: "get",
                 checked: true
             },
-            {value: "post"}, {value: "update"}, {value: "delete"}, { value: "create" }                        
+            "post", "update", "delete", "create"                      
         ]
     }
 ]
@@ -118,7 +125,76 @@ questions.providerQuestions=[
         choices:[{
                 value: 'profile',
                 checked: true
-            }, {value: 'contacts'}
+            }, 'contacts'
         ]
+    }
+]
+
+questions.firebaseSetup=[{
+        type: 'checkbox',
+        name: 'services',
+        message: 'select firebase service',
+        choices:['authentication', 'database', 'storage' ,'analytics']
+    }]
+
+questions.firebaseAuth=[
+    {
+        type: 'checkbox',
+        name: 'providers',
+        message: 'select Authentication providers. There are other providers as well',
+        choices:['email', 'google', 'facebook', 'phone']
+    },
+    {
+        type: 'confirm',
+        name: 'loginPageRequired',
+        message: 'do you want basic signup and login page for code reference?',
+        default: true
+    }
+]
+
+questions.firebaseDb=[{
+    type: 'list',
+    name: 'db',
+    message: 'Select Database',
+    choices: ['firestore', 'realtime_database']
+}]
+
+questions.reactSetup=[
+    {
+        type: 'list',
+        name: 'rendering',
+        message: 'select type of rendering. client side rendering is suitable for small scale applications',
+        choices: ['client-side', 'server-side']
+    },
+    {
+        type: 'confirm',
+        name: 'redux',
+        message: 'Do you want to setup redux store?',
+        default: false
+    },
+    {
+        type: 'confirm',
+        name: 'routing',
+        message: 'Do you want to setup basic routing for your app?',
+        default: false
+    }
+]
+
+questions.nodemailer=[
+    {
+        type: 'input',
+        name: 'service',
+        message: 'email service provider. Some email service providers reject the request from your less secure apps',
+        default: 'gmail'
+    },
+    {
+        type: 'input',
+        name: 'email_id',
+        message: 'email id'
+    },
+    {
+        type: 'password',
+        name: 'password',
+        message: 'password'
     }
 ]
