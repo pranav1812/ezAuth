@@ -54,11 +54,14 @@ body{
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
-	text-align: center;
+    text-align: center;
+   
 }
 
 form{
-	width: 360px;
+    width: 360px;
+    background-color: rgb(253, 253, 253);
+    border-radius: 20px;
 }
 
 .login-content img{
