@@ -1,4 +1,4 @@
-module.exports = function (routes, authRoutes) {
+module.exports = function (routes, authRoutes, providers) {
   return `
 const express = require("express");
 const mongoose = require("mongoose");
@@ -9,7 +9,7 @@ const cors = require("cors");
 
 const app = express();
 //* Route imports
-${routeImports(routes, authRoutes)}
+${routeImports(routes, authRoutes, providers)}
 
 // * Middleware
 app.use(cors());
@@ -18,13 +18,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(
   cookieSession({
     maxAge: 1000 * 60 * 60 * 24, //24 HOURS
-    secret: process.env.COOKIE_SECRET,
-    keys: [],
+    secret: process.env.COOKIE_SECRET
   })
 );
 
 // * Passport Setup
-${passportImports(authRoutes)}
+${passportImports(authRoutes, providers)}
 app.use(passport.initialize());
 app.use(passport.session());
 require("./config/passport_Serialize_Deserialize");
@@ -46,13 +45,16 @@ mongoose
 
 // * Routes setup
 ${routeSetup(routes)}
-${authRouteSetup(authRoutes)}
+${authRouteSetup(authRoutes, providers)}
 `;
 
-  function passportImports(authRoutes) {
+  function passportImports(authRoutes, providers) {
     let imports = "";
     authRoutes.forEach((route) => {
-      imports += `require("./config/${route}-passportLocal");\n`;
+      providers.forEach((provider) => {
+        // imports += `const ${route}Auth = require("./routes/${route}-${provider}-Auth");\n`;
+        imports += `require("./config/${route}-${provider}-passportStrategy");\n`;
+      });
     });
     return imports;
   }
@@ -64,22 +66,30 @@ ${authRouteSetup(authRoutes)}
     });
     return imports;
   }
-  function authRouteSetup(routes) {
+  function authRouteSetup(routes, providers) {
     let imports = "";
-    routes.forEach(
-      (route) => (imports += `app.use("/api/auth/${route}/", ${route}Auth);\n`)
-    );
+    routes.forEach((route) => {
+      imports += `app.use("/api/${route}/", ${route});\n`;
+      providers.forEach((provider) => {
+        imports += `app.use("/api/auth/${provider}/${route}/", ${route}Auth_${provider} );\n`;
+      });
+    });
     return imports;
   }
-  function routeImports(routes, authRoutes) {
+  function routeImports(routes, authRoutes, providers) {
     let imports = "";
     routes.forEach(
       (route) => (imports += `const ${route} = require("./routes/${route}");\n`)
     );
     authRoutes.forEach(
-      (route) =>
-        (imports += `const ${route}Auth = require("./routes/${route}Auth");\n`)
+      (route) => (imports += `const ${route} = require("./routes/${route}");\n`)
     );
+    authRoutes.forEach((route) => {
+      providers.forEach((provider) => {
+        imports += `const ${route}Auth_${provider} = require("./routes/${route}-${provider}-Auth");\n`;
+      });
+      // imports += `const ${route}Auth = require("./routes/${route}-${provider}-Auth");\n`;
+    });
     return imports;
   }
 };

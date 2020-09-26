@@ -46,7 +46,7 @@ module.exports = function (name, modePath) {
       const salt = await bcrypt.genSalt(10);
       const password = await bcrypt.hash(req.body.password, salt);
   
-      //! check for duplicate phone number
+    
   
       const new${name} = new ${name}Model({
         ...reqBody,
@@ -54,7 +54,7 @@ module.exports = function (name, modePath) {
         password: password,
       });
       await new${name}.save();
-      res.send(new${name}); //! omit password
+      res.send(new${name}); 
     } catch (error) {
       console.log("ERROR...\\n", error);
       res.status(400).send("Server denied request.");
@@ -108,23 +108,14 @@ module.exports = function (name, modePath) {
   
       const token = await generateToken();
   
-      // ! Not sure if this is the best approach or not.( Not a doc usage. )
-  
-      // async.parallel(
-      //   [
-      // function (callback) {
+     
+    
       const dt = new Date();
       ${name}.verificationTokenValid = dt.setMinutes(dt.getMinutes() + 30); // 30 mins
       ${name}.verificationToken = token;
   
       await ${name}.save();
-      // .then(() => {
-      //   console.log("User Updated.");
-      //   callback("User Updated");
-      // })
-      // .catch((err) => callback(err));
-      // }
-      // function (callback) {
+    
       const emailRes = await smtpTransport.sendMail({
         to: ${name}.email,
         from: \`"Medic" <"ezAUTH@gmail.com">\`,
@@ -137,8 +128,7 @@ module.exports = function (name, modePath) {
       return res
         .status(200)
         .send(\`Email has been sent to \${${name}.email} with further instructions.\`);
-      // }
-      // );
+      
     } catch (error) {
       console.log(error);
       res.status(400).send("Server denied request.");
@@ -175,25 +165,16 @@ module.exports = function (name, modePath) {
         email: req.body.email,
       }).exec();
       if (!${name}) return res.status(400).send("User not found.");
-      //! ? change this maybe
-      const buf = await crypto.randomBytes(25);
+       const buf = await crypto.randomBytes(25);
       const resetToken = buf.toString("hex");
       const dt = new Date();
   
-      // ! Not sure if this is the best approach or not.( Not a ${name} usage. )
-      // async.parallel(
-      //   [
-      //     function (callback) {
+     
       ${name}.resetToken = resetToken;
       ${name}.resetTokenValid = dt.setMinutes(dt.getMinutes() + 15); // 15 mins
   
       await ${name}.save();
-      // .then(() => {
-      //   console.log("User Updated.");
-      // })
-      // .catch((err) => console.log(err));
-      // }
-      // function (callback) {
+      
       smtpTransport
         .sendMail({
           to: \`\${${name}.email}\`,
@@ -208,14 +189,11 @@ module.exports = function (name, modePath) {
           // callback("Email Sent.");
         })
         .catch((err) => console.log(err));
-      // },
-      // ],
-      // function (err) {
+     
       return res.send(
         \`Email has been sent to \${${name}.email} with further instructions.\`
       );
-      // }
-      // );
+    
     } catch (error) {
       console.log(error);
       res.status(400).send("Server denied request.");

@@ -7,13 +7,13 @@ const { omit } = require("lodash");
 const bcrypt = require("bcryptjs");
 const smtpTransport = require("../config/emailSetup");
 
-const isAuthenticated = require("../middleware/authUser");//!create
+const isAuthenticated = require("../middleware/${name}Auth");//!create
 // const validation = require("../validation/user");//!create
 
 const ${name}Model = require('${modePath}');
 
 router.get("/protected", isAuthenticated, (req, res) => {
-  res.send("reached user protected route");
+  res.send("reached ${name} protected route");
 });
 
 router.get("/all", async (req, res) => {
