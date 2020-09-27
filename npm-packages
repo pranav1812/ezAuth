@@ -1,0 +1,1 @@
+mongoose express dotenv cors passport cookie-session passport-local bcryptjs crypto lodash  nodemailer passport-google-oauth2
