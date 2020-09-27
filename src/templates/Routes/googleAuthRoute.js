@@ -5,22 +5,22 @@ module.exports = function (name) {
 const router = require("express").Router();
 const passport = require("passport");
 
-const isAuthenticated = require("../middleware/auth");//!create
-
+const isAuthenticated = require("../middleware/${name}Auth");
+    
 
 router.get(
-  '/${name}/login',
-  passport.authenticate("google", { scope: ["profile", "email"] }),
+  '/login',
+  passport.authenticate("${name}-google", { scope: ["profile", "email"] }),
   (req, res) => {
     return res.send(req.user);
   }
 );
 
-router.get("/${name}/login/callback", passport.authenticate("google"), (req, res) => {
+router.get("/login/callback", passport.authenticate("${name}-google"), (req, res) => {
   res.send(req.user);
 });
 
-router.get("/${name}/logout", isAuthenticated, (req, res) => {
+router.get("/logout", isAuthenticated, (req, res) => {
   req.logout();
   res.send("logged out");
 });

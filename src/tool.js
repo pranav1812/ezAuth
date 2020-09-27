@@ -1,113 +1,71 @@
-// all file system manipulation functions 
+// all file system manipulation functions
+const util = require("./util/util.js");
 
-const fs = require("fs");
+function init(routes, authRoutes, providers, config, relPath) {
+  const {
+    createFolder,
+    createRoute,
+    createModel,
+    createAuth,
+    createPassport_Serialize_Deserialize,
+    createMiddleware,
+    createEmailSetup,
+    createDotenv,
+    createGitignore,
+    createServer,
+  } = util(relPath);
 
-// const path = require("path");
+  function intiFolders() {
+    createFolder("routes");
+    createFolder("config");
+    createFolder("models");
+    createFolder("middleware");
+  }
 
-async function createFolder(name) {
-  const pathname = `${name}`;
-  return fs.mkdir(pathname, { recursive: true }, (err) => {
-    if (err) throw err;
-  });
+  function initRoutes(routes) {
+    routes.forEach((route) => {
+      createModel(route);
+      createRoute(route, `../models/${route}`);
+    });
+  }
+  function initAuthRoutes(authRoutes) {
+    authRoutes.forEach((route) => {
+      createModel(route, true);
+      createRoute(route, `../models/${route}`, true);
+      createAuth(route, `../models/${route}`, providers);
+      createMiddleware(route, relPath);
+    });
+  }
+
+  function create(routes, authRoutes, providers, config) {
+    intiFolders();
+    createDotenv(config);
+    createGitignore();
+    createEmailSetup();
+    initRoutes(routes);
+    initAuthRoutes(authRoutes);
+    if (authRoutes.length) createPassport_Serialize_Deserialize(authRoutes);
+    createServer(routes, authRoutes, providers);
+    console.log("done");
+  }
+  create(routes, authRoutes, providers, config);
 }
+init(routes, authRoutes, providers, config, relPath);
 
-// async function copyFile(src, dest) {
-//   return fs.copyFile(src, dest, fs.constants.COPYFILE_EXCL, (err) => {
-//     if (err) throw err; //! create folder automatically
-//     //! if file already exists ... see what to do
-//   });
-// }
+//! multer
+//! package.json // dependencies // child spwan for npm i
 
-function createRoute(name, modelPath) {
-  fs.writeFile(
-    `routes/${name}.js`,
-    require("../templates/route")(name, modelPath),
-    function (err) {
-      if (err) console.log(err);
-    }
-  );
-}
-
-function createAuth(name, modelPath) {
-  fs.writeFile(
-    `routes/auth${name}.js`,
-    require("../templates/localAuthRoute")(name),
-    function (err) {
-      if (err) console.log(err);
-    }
-  );
-
-  fs.writeFile(
-    `config/${name}-passportLocal.js`,
-    require("../templates/passportLocalStrategy")(name, modelPath),
-    function (err) {
-      if (err) console.log(err);
-    }
-  );
-}
-function createPassport_Serialize_Deserialize(authRoutes) {
-  fs.writeFile(
-    `config/passport_Serialize_Deserialize.js`,
-    require("../templates/serializeUser")(authRoutes),
-    function (err) {
-      if (err) console.log(err);
-    }
-  );
-}
-function createMiddleware(name) {
-  fs.writeFile(
-    `middleware/${name}Auth.js`,
-    require("../templates/authMiddleware")(name),
-    function (err) {
-      if (err) console.log(err);
-    }
-  );
-}
-function createServer(routes, authRoutes) {
-  fs.writeFile(
-    `index.js`,
-    require("../templates/index")(routes, authRoutes),
-    function (err) {
-      if (err) console.log(err);
-    }
-  );
-}
-
-function createModel(route) {
-  fs.writeFile(
-    `models/${route}.js`,
-    require("../templates/model")(route),
-    function (err) {
-      if (err) console.log(err);
-    }
-  );
-}
-
-function intiFolders() {
-  createFolder("./routes");
-  createFolder("./config");
-  createFolder("./models");
-  createFolder("./middleware");
-}
-
-function init(routes, authRoutes) {
-  intiFolders();
-  routes.forEach((r) => {
-    createModel(r);
-    createRoute(r, `../models/${r}`);
-  });
-  authRoutes.forEach((r) => {
-    createAuth(r, `../models/${r}`);
-    createMiddleware(r);
-  });
-  createPassport_Serialize_Deserialize(authRoutes);
-
-  //create package.json
-  //dotenv
-  createServer(routes, authRoutes);
-
-  console.log("done");
-}
-const routes = ["user", "doctor", "blogs"];
+module.exports = init;
+const routes = ["blogs"];
 const authRoutes = ["user", "doctor"];
-module.exports= init;
+const relPath = "../testServer";
+const providers = ["local", "google"];
+const config = {
+  PORT: 3000,
+  MONGODB_URI: "mongodb://localhost:27017/foss-hackathon-temp",
+  COOKIE_SECRET: "COOKIE_SECRET",
+  GOOGLE_CLIENT_ID: "google_clientID",
+  GOOGLE_CLIENT_SECRET: "google_client_secret",
+  SMTP_USER: "user",
+  SMTP_PASS: "pass",
+};

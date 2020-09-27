@@ -11,7 +11,7 @@ module.exports = function (authRoutes) {
       });
   
 
-      passport.deserializeUser(function (session, done) {
+      passport.deserializeUser(async function (session, done) {
         ${getDeserilizeConditions(authRoutes)}
       });
 
@@ -28,20 +28,20 @@ module.exports = function (authRoutes) {
     let str = "";
 
     modelsList.forEach(
-      (m) => (str += `const ${m} = require('../models/${m}')\n`)
+      (m) => (str += `const ${m}Model = require('../models/${m}')\n`)
     );
     return str;
   }
 
   function getModelCondition(modelsList) {
     let m = modelsList[0];
-    let str = `if (${modelsList[0]}.prototype === prototype){
+    let str = `if (${modelsList[0]}Model.prototype === prototype){
             model = "${m}";
         }\n`;
 
     for (i = 1; i < modelsList.length; i++) {
       let m = modelsList[i];
-      str += `        else if (${m}.prototype === prototype){
+      str += `        else if (${m}Model.prototype === prototype){
                 model = "${m}";
         }\n`;
     }
@@ -51,20 +51,21 @@ module.exports = function (authRoutes) {
   function getDeserilizeConditions(modelsList) {
     let m = modelsList[0];
     let str = `if (session.model === "${modelsList[0]}"){
-    ${modelsList[0]}.findById(session.id, function (err, ${modelsList[0]}) {
-        return done(err, { role: "${modelsList[0]}", ${modelsList[0]} });
-      });      
+    const user = await ${modelsList[0]}Model.findById(session.id); 
+    if(!user)done(true); 
+    user.role= "${m}";   
+    return done(false,user);
 }\n`;
 
     for (i = 1; i < modelsList.length; i++) {
       let m = modelsList[i];
       str += `        else if (  session.model ===  "${m}"){
-        ${m}.findById(session.id, function (err, ${m}) {
-            return done(err, { role: "${m}", ${m} });
-          });      
+        const user = await ${m}Model.findById(session.id);
+        if(!user)done(true);  
+        user.role= "${m}";     
+        return done(false,  user );
     }\n`;
     }
     return str;
   }
-  // };
 };

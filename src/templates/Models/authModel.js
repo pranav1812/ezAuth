@@ -3,6 +3,7 @@ module.exports = function (name) {
     const mongoose = require("mongoose");
     
     const ${name}Schema = new mongoose.Schema({
+      
       name: {
         type: String,
         maxlength: 250,
@@ -15,14 +16,14 @@ module.exports = function (name) {
       },
       phoneNo: {
         type: Number,
-        unique: true,
-        // required: true,
+      
+      
       },
       password: {
         type: String,
         minlength: 8,
         maxlength: 100,
-        // required: true,
+      
       },
       verificationToken: {
         type: String,
@@ -45,7 +46,7 @@ module.exports = function (name) {
         default: false,
       },
     });
-    const ${name}Model = mongoose.model(${name}, schema);
+    const ${name}Model = mongoose.model('${name}', ${name}Schema);
     module.exports = ${name}Model;
     
       `;
