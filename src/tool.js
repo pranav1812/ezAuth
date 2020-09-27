@@ -68,7 +68,7 @@ function init(routes, authRoutes, providers, config, staticClient, relPath) {
   }
   create(routes, authRoutes, providers, staticClient, config);
 }
-init(routes, authRoutes, providers, config, { register, signin }, relPath);
+// init(routes, authRoutes, providers, config, relPath);
 
 //! multer
 //! package.json // dependencies // child spwan for npm i

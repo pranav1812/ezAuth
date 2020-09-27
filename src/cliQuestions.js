@@ -18,6 +18,13 @@ questions.runQuestions= [
 
     {
         type: 'input',
+        name: 'staticFrontend',
+        message: 'do you want demo static frontend?',       
+        default: false
+    },
+
+    {
+        type: 'input',
         name: 'authRoutes',
         message: 'enter names of user collections (space separated), eg. clients leads admins'
     },
@@ -28,12 +35,12 @@ questions.runQuestions= [
         message: 'enter names of normal collections, eg. items sales orders'
     },
 
-    {
-        type: 'confirm',
-        name: 'multerSetup',
-        message: 'do you want to setUp multer? : multer is used to store files in mongo DB',
-        default: false
-    },
+    // {
+    //     type: 'confirm',
+    //     name: 'multerSetup',
+    //     message: 'do you want to setUp multer? : multer is used to store files in mongo DB',
+    //     default: false
+    // },
 
     {
         type: 'confirm',
@@ -110,23 +117,13 @@ questions.routeSelection=[
 questions.providerQuestions=[
     {
         type: 'input',
-        name: 'access',
-        message: 'access key'
+        name: 'clientId',
+        message: 'client id'
     },
     {
         type: 'input',
-        name: 'secret',
-        message: 'secret key'
-    },
-    {
-        type: 'checkbox',
-        name: 'scope',
-        message: 'select details of user you would require',
-        choices:[{
-                value: 'profile',
-                checked: true
-            }, 'contacts'
-        ]
+        name: 'clientSecret',
+        message: 'client secret'
     }
 ]
 
@@ -169,7 +166,7 @@ questions.reactSetup=[
     {
         type: 'confirm',
         name: 'redux',
-        message: 'Do you want to setup redux store?',
+        message: 'Do you want to setup redux for your project?',
         default: false
     },
     {
@@ -179,6 +176,12 @@ questions.reactSetup=[
         default: false
     }
 ]
+questions.reactRouting=[{
+    type: 'input',
+    name: 'routes',
+    message: 'Enter names of routes you want (:- name should start with Upper case)',
+    default: 'Home AboutUs'
+}]
 
 questions.nodemailer=[
     {
