@@ -63,7 +63,7 @@ function init(routes, authRoutes, providers, config, staticClient, relPath) {
     initAuthRoutes(authRoutes);
     if (authRoutes.length) createPassport_Serialize_Deserialize(authRoutes);
     createServer(routes, authRoutes, providers);
-    createStaticFrontend(staticClient);
+    if (staticClient) createStaticFrontend();
     console.log("done");
   }
   create(routes, authRoutes, providers, staticClient, config);

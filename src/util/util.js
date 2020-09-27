@@ -154,19 +154,19 @@ module.exports = (relPath) => {
       }
     );
   }
-  function createStaticFrontend({ register, signin }) {
-    if (register) {
-      cpyDir(
-        "../templates/Frontend-Static/shellHacks-registration",
-        path.resolve(__dirname, relPath, "StaticFrontend")
-      );
-    }
-    if (signin) {
-      cpyDir(
-        "../templates/Frontend-Static/responsiveLogin",
-        path.resolve(__dirname, relPath, "StaticFrontend")
-      );
-    }
+  function createStaticFrontend() {
+    // if (register) {
+    cpyDir(
+      "../templates/Frontend-Static/shellHacks-registration",
+      path.resolve(__dirname, relPath, "StaticFrontend")
+    );
+    // }
+    // if (signin) {
+    cpyDir(
+      "../templates/Frontend-Static/responsiveLogin",
+      path.resolve(__dirname, relPath, "StaticFrontend")
+    );
+    // }
   }
   return {
     createFolder,
