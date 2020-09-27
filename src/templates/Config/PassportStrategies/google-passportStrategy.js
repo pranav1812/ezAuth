@@ -8,8 +8,8 @@ const ${name}Model = require("../models/${name}");
 passport.use('${name}-google',
   new googleStrategy(
     {
-      clientID: process.env.CLIENT_ID,
-      clientSecret: process.env.CLIENT_SECRET,
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: "/api/auth/google/${name}/login/callback",
       passReqToCallback: true,
     },

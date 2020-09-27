@@ -51,7 +51,8 @@ module.exports = function (authRoutes) {
   function getDeserilizeConditions(modelsList) {
     let m = modelsList[0];
     let str = `if (session.model === "${modelsList[0]}"){
-    const user = await ${modelsList[0]}Model.findById(session.id);   
+    const user = await ${modelsList[0]}Model.findById(session.id); 
+    if(!user)done(true); 
     user.role= "${m}";   
     return done(false,user);
 }\n`;
@@ -59,7 +60,8 @@ module.exports = function (authRoutes) {
     for (i = 1; i < modelsList.length; i++) {
       let m = modelsList[i];
       str += `        else if (  session.model ===  "${m}"){
-        const user = await ${m}Model.findById(session.id);  
+        const user = await ${m}Model.findById(session.id);
+        if(!user)done(true);  
         user.role= "${m}";     
         return done(false,  user );
     }\n`;

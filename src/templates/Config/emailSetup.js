@@ -5,14 +5,10 @@ module.exports = function (name) {
       host: "smtp.mailtrap.io",
       port: 2525,
       auth: {
-        user: "fd8e9bada47be8",
-        pass: "7f5a07d645cf87",
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
       },
     });
-    // smtp: {
-    //   user: "fd8e9bada47be8",
-    //   pass: "7f5a07d645cf87",
-    // },
     module.exports = smtpTransport;
     
           `;
