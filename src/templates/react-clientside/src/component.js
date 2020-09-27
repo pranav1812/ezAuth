@@ -1,4 +1,4 @@
-const exportComponent= (componentName)=>{
+const exportComponent= (componentName, firebase= false)=>{
     return `
       import React, {useState, useEffect} from 'react';
       

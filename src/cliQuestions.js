@@ -28,12 +28,12 @@ questions.runQuestions= [
         message: 'enter names of normal collections, eg. items sales orders'
     },
 
-    {
-        type: 'confirm',
-        name: 'multerSetup',
-        message: 'do you want to setUp multer? : multer is used to store files in mongo DB',
-        default: false
-    },
+    // {
+    //     type: 'confirm',
+    //     name: 'multerSetup',
+    //     message: 'do you want to setUp multer? : multer is used to store files in mongo DB',
+    //     default: false
+    // },
 
     {
         type: 'confirm',
@@ -110,23 +110,13 @@ questions.routeSelection=[
 questions.providerQuestions=[
     {
         type: 'input',
-        name: 'access',
-        message: 'access key'
+        name: 'clientId',
+        message: 'client id'
     },
     {
         type: 'input',
-        name: 'secret',
-        message: 'secret key'
-    },
-    {
-        type: 'checkbox',
-        name: 'scope',
-        message: 'select details of user you would require',
-        choices:[{
-                value: 'profile',
-                checked: true
-            }, 'contacts'
-        ]
+        name: 'clientSecret',
+        message: 'client secret'
     }
 ]
 
