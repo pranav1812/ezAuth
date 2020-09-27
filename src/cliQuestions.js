@@ -169,7 +169,7 @@ questions.reactSetup=[
     {
         type: 'confirm',
         name: 'redux',
-        message: 'Do you want to setup redux store?',
+        message: 'Do you want to setup redux for your project?',
         default: false
     },
     {
@@ -179,6 +179,12 @@ questions.reactSetup=[
         default: false
     }
 ]
+questions.reactRouting=[{
+    type: 'input',
+    name: 'routes',
+    message: 'Enter names of routes you want (:- name should start with Upper case)',
+    default: 'Home AboutUs'
+}]
 
 questions.nodemailer=[
     {
