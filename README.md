@@ -4,11 +4,11 @@ eZ-Auth Package is a Command line tool to create a flexible boiler plate for nod
 demand setup for popular providers. It also provides the responsive static template for login and registration page.
 
 ## CONTENT:
-> How to get started?
-> Package features
-> Command lines
-> Static Templates
-> Help and Support
+* How to get started?
+* Package features
+* Command lines
+* Static Templates
+* Help and Support
 
 ## GET STARTED:
 1. Install the package globally using `npm i ez-auth -g` command
