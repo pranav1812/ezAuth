@@ -18,6 +18,13 @@ questions.runQuestions= [
 
     {
         type: 'input',
+        name: 'staticFrontend',
+        message: 'do you want demo static frontend?',       
+        default: false
+    },
+
+    {
+        type: 'input',
         name: 'authRoutes',
         message: 'enter names of user collections (space separated), eg. clients leads admins'
     },
