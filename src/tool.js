@@ -1,7 +1,23 @@
 // all file system manipulation functions
 const util = require("./util/util.js");
+const routes = ["blogs"];
+const authRoutes = ["user", "doctor"];
+const relPath = "../testServer";
+const providers = ["local", "google"];
+const config = {
+  PORT: 3000,
+  MONGODB_URI: "mongodb://localhost:27017/foss-hackathon-temp",
+  COOKIE_SECRET: "COOKIE_SECRET",
+  GOOGLE_CLIENT_ID: "google_clientID",
+  GOOGLE_CLIENT_SECRET: "google_client_secret",
+  SMTP_USER: "user",
+  SMTP_PASS: "pass",
+  SMTP_HOST: "host",
+};
+const register = true;
+const signin = true;
 
-function init(routes, authRoutes, providers, config, relPath) {
+function init(routes, authRoutes, providers, config, staticClient, relPath) {
   const {
     createFolder,
     createRoute,
@@ -13,6 +29,7 @@ function init(routes, authRoutes, providers, config, relPath) {
     createDotenv,
     createGitignore,
     createServer,
+    createStaticFrontend,
   } = util(relPath);
 
   function intiFolders() {
@@ -37,7 +54,7 @@ function init(routes, authRoutes, providers, config, relPath) {
     });
   }
 
-  function create(routes, authRoutes, providers, config) {
+  function create(routes, authRoutes, providers, staticClient, config) {
     intiFolders();
     createDotenv(config);
     createGitignore();
@@ -46,9 +63,10 @@ function init(routes, authRoutes, providers, config, relPath) {
     initAuthRoutes(authRoutes);
     if (authRoutes.length) createPassport_Serialize_Deserialize(authRoutes);
     createServer(routes, authRoutes, providers);
+    if (staticClient) createStaticFrontend();
     console.log("done");
   }
-  create(routes, authRoutes, providers, config);
+  create(routes, authRoutes, providers, staticClient, config);
 }
 // init(routes, authRoutes, providers, config, relPath);
 
@@ -56,16 +74,3 @@ function init(routes, authRoutes, providers, config, relPath) {
 //! package.json // dependencies // child spwan for npm i
 
 module.exports = init;
-const routes = ["blogs"];
-const authRoutes = ["user", "doctor"];
-const relPath = "../testServer";
-const providers = ["local", "google"];
-const config = {
-  PORT: 3000,
-  MONGODB_URI: "mongodb://localhost:27017/foss-hackathon-temp",
-  COOKIE_SECRET: "COOKIE_SECRET",
-  GOOGLE_CLIENT_ID: "google_clientID",
-  GOOGLE_CLIENT_SECRET: "google_client_secret",
-  SMTP_USER: "user",
-  SMTP_PASS: "pass",
-};

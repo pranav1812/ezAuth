@@ -7,6 +7,30 @@ module.exports = (relPath) => {
     const pathname = `${path.resolve(__dirname, relPath, name)}`;
     return fs.mkdirSync(pathname, { recursive: true });
   }
+  function cpyDir(dir, src) {
+    const root = fs.readdirSync(path.resolve(__dirname, dir));
+
+    root.forEach((file) => {
+      const isDir = fs
+        .lstatSync(path.resolve(__dirname, relPath, dir, file))
+        .isDirectory();
+      if (isDir) {
+        fs.mkdirSync(path.resolve(__dirname, relPath, src, dir), {
+          recursive: true,
+        });
+        cpyDir(`${dir}/${file}`, src);
+      } else {
+        fs.mkdirSync(path.resolve(__dirname, src, dir), {
+          recursive: true,
+        });
+
+        fs.copyFileSync(
+          path.resolve(__dirname, dir, file),
+          path.resolve(__dirname, src, dir, file)
+        );
+      }
+    });
+  }
   function createModel(route, auth = false) {
     fs.writeFile(
       path.resolve(__dirname, relPath, "models", `${route}.js`),
@@ -130,7 +154,20 @@ module.exports = (relPath) => {
       }
     );
   }
-
+  function createStaticFrontend() {
+    // if (register) {
+    cpyDir(
+      "../templates/Frontend-Static/shellHacks-registration",
+      path.resolve(__dirname, relPath, "StaticFrontend")
+    );
+    // }
+    // if (signin) {
+    cpyDir(
+      "../templates/Frontend-Static/responsiveLogin",
+      path.resolve(__dirname, relPath, "StaticFrontend")
+    );
+    // }
+  }
   return {
     createFolder,
     createRoute,
@@ -142,5 +179,6 @@ module.exports = (relPath) => {
     createDotenv,
     createGitignore,
     createServer,
+    createStaticFrontend,
   };
 };

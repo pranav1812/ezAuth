@@ -2,7 +2,7 @@ module.exports = function (name) {
   return `
     const nodemailer = require("nodemailer");
     const smtpTransport = nodemailer.createTransport({
-      host: "smtp.mailtrap.io",
+      host: process.env.SMTP_HOST,
       port: 2525,
       auth: {
         user: process.env.SMTP_USER,

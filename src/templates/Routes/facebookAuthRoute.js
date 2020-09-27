@@ -1,21 +1,22 @@
-
+module.exports = function (name) {
+  return `
     
     
 const router = require("express").Router();
 const passport = require("passport");
 
-const isAuthenticated = require("../middleware/leadsAuth");
+const isAuthenticated = require("../middleware/${name}Auth");
     
 
 router.get(
   '/login',
-  passport.authenticate("leads-google", { scope: ["profile", "email"] }),
+  passport.authenticate("${name}-facebook"),
   (req, res) => {
     return res.send(req.user);
   }
 );
 
-router.get("/login/callback", passport.authenticate("leads-google"), (req, res) => {
+router.get("/login/callback", passport.authenticate("${name}-facebook"), (req, res) => {
   res.send(req.user);
 });
 
@@ -26,4 +27,5 @@ router.get("/logout", isAuthenticated, (req, res) => {
 
 module.exports = router;
 
-    
+    `;
+};
