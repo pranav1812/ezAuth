@@ -1,4 +1,5 @@
 const exportFirebase= (firestore= false, auth= false, storage= false, analytics= false)=>{
+    
     return `
         import * as firebase from 'firebase;
         ${additionalImports(firestore, auth, storage, analytics)}
@@ -120,6 +121,9 @@ const additionalImports= (firestore, auth, storage, analytics)=>{
     if (analytics)
         addImports+= `\timport 'firebase/analytics';\n`
     
+    // console.log(addImports)
     return addImports
 }
+
+module.exports= exportFirebase
 // console.log(exportFirebase(true, true, true))

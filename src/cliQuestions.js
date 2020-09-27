@@ -17,7 +17,7 @@ questions.runQuestions= [
     },
 
     {
-        type: 'input',
+        type: 'confirm',
         name: 'staticFrontend',
         message: 'do you want demo static frontend?',       
         default: false
@@ -115,11 +115,11 @@ questions.routeSelection=[
 ]
 
 questions.providerQuestions=[
-    {
-        type: 'input',
-        name: 'clientId',
-        message: 'client id'
-    },
+    // {
+    //     type: 'input',
+    //     name: 'clientId',
+    //     message: 'client id'
+    // },
     {
         type: 'input',
         name: 'clientSecret',
@@ -127,13 +127,15 @@ questions.providerQuestions=[
     }
 ]
 
-questions.firebaseSetup=[{
+questions.firebaseSetup=[
+    {
         type: 'checkbox',
         name: 'services',
         message: 'select firebase service',
-        choices:['authentication', 'database', 'storage' ,'analytics']
+        choices:['authentication', 'firestore', 'storage' ,'analytics']
     }]
 
+// not used 
 questions.firebaseAuth=[
     {
         type: 'checkbox',
@@ -157,23 +159,23 @@ questions.firebaseDb=[{
 }]
 
 questions.reactSetup=[
-    {
-        type: 'list',
-        name: 'rendering',
-        message: 'select type of rendering. client side rendering is suitable for small scale applications',
-        choices: ['client-side', 'server-side']
-    },
-    {
-        type: 'confirm',
-        name: 'redux',
-        message: 'Do you want to setup redux for your project?',
-        default: false
-    },
+    // {
+    //     type: 'confirm',
+    //     name: 'redux',
+    //     message: 'Do you want to setup redux for your project?',
+    //     default: false
+    // },
     {
         type: 'confirm',
         name: 'routing',
         message: 'Do you want to setup basic routing for your app?',
         default: false
+    },
+    {
+        type: 'input',
+        name: 'projectName',
+        message: 'Enter a name for your project',
+        default: 'ez-Auth_demo'
     }
 ]
 questions.reactRouting=[{

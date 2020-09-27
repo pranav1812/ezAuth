@@ -27,10 +27,10 @@ program
     .description("sets up versatile boiler plate for react and firebase for serverless rendering")
     .action(cliFunctions.reactFirebaseFunction)
 
-program
-    .command('firebaseSetup')
-    .alias('fs')
-    .description("sets up simple firebase boiler plate")
-    .action(cliFunctions.firebaseFunction)
+// program
+//     .command('firebaseSetup')
+//     .alias('fs')
+//     .description("sets up simple firebase boiler plate")
+//     .action(cliFunctions.firebaseFunction)
 
 program.parse(process.argv)

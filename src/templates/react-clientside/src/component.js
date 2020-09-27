@@ -1,7 +1,8 @@
 const exportComponent= (componentName, firebase= false)=>{
     return `
       import React, {useState, useEffect} from 'react';
-      
+      ${additionalImports(firebase)}
+
       function ${componentName}() {
         
         // property here is equivalent to state object in class components, 
@@ -27,11 +28,20 @@ const exportComponent= (componentName, firebase= false)=>{
     var rStatement= `
         <div>
             <span>write custom code</span>
-        <div />
+        </div>
     `
     
     return rStatement
   }
   
+  const additionalImports=(firebase)=>{
+    var addImports= ``
+    if(firebase){
+        addImports+= `import {Fb} from '../firebase.js';\n`
+    }
+    return addImports
+  }
+
+
   module.exports= exportComponent
   // console.log(exportComponent("Home"))

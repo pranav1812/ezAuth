@@ -55,39 +55,56 @@ cliFunctions.runFunction = () => {
       providerNames,
       configObj,
       answers.staticFrontend,
-      "../test"
+      process.cwd()
     );
   });
 };
 
-cliFunctions.firebaseFunction = () => {
-  prompt(questions.firebaseSetup).then(async (answers) => {
-    if (answers.services.includes("authentication")) {
-      var firebaseAuthAnswers = await prompt(questions.firebaseAuth);
-    }
-    if (answers.services.includes("database")) {
-      var dbType = await prompt(questions.firebaseDb);
-    }
-  });
-};
+// cliFunctions.firebaseFunction = () => {
+//   prompt(questions.firebaseSetup).then(async (answers) => {
+//     if (answers.services.includes("authentication")) {
+//       var firebaseAuthAnswers = await prompt(questions.firebaseAuth);
+//     }
+//     if (answers.services.includes("database")) {
+//       var dbType = await prompt(questions.firebaseDb);
+//     }
+//   });
+// };
 
 cliFunctions.reactFunction = () => {
   prompt(questions.reactSetup).then(async (answers) => {
-    console.log(answers);
+    var reactObj={
+        redux: false,
+        routing: false
+    }
+    if(answers.routing){
+        var routeAnswers= await prompt(questions.reactRouting)
+        reactObj.routing= routeAnswers.routes.split(' ')
+
+        fileFunctions.reactFirebaseSetup(reactObj, false, answers.projectName)
+    }else{
+        fileFunctions.reactFirebaseSetup(reactObj, false, answers.projectName)
+    }
   });
 };
 
 cliFunctions.reactFirebaseFunction = async () => {
   var reactSetupAnswers = await prompt(questions.reactSetup);
-  var firebaseAnswers = await prompt(questions.firebaseSetup);
+  var reactObj= {
+    redux: false,
+    routing: false
+  }
+  if(reactSetupAnswers.routing){
+      var routeAnswers= await prompt(questions.reactRouting)
+      reactObj.routing= routeAnswers.routes.split(' ')
+  }
 
-  if (firebaseAnswers.services.includes("authentication")) {
-    var firebaseAuthAnswers = await prompt(questions.firebaseAuth);
-  }
-  if (firebaseAnswers.services.includes("database")) {
-    var dbType = await prompt(questions.firebaseDb);
-  }
-  if (firebaseAnswers.services.includes("database")) {
-    console.log("storage bhi milegi");
-  }
+  var firebaseAnswers = await prompt(questions.firebaseSetup);
+  var firebaseObj= {
+        firestore: firebaseAnswers.services.includes('firestore'),
+        auth: firebaseAnswers.services.includes('authentication'),
+        storage: firebaseAnswers.services.includes('storage'),
+        analytics: firebaseAnswers.services.includes('analytics')
+    }
+    fileFunctions.reactFirebaseSetup(reactObj, firebaseObj, reactSetupAnswers.projectName)
 };
