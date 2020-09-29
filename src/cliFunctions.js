@@ -3,11 +3,15 @@ const { prompt } = require("inquirer");
 const questions = require("./cliQuestions");
 const fileFunctions = require("./fileFunctions");
 const init = require("./tool");
+const installObj= require('./installObj')
 
 var cliFunctions = {};
 module.exports = cliFunctions;
 
 cliFunctions.runFunction = () => {
+  var install=[]
+  installObj.backend.standard.forEach(obj=> install.push(obj))
+
   prompt(questions.runQuestions).then(async (answers) => {
     // tool(answers.models.split(' '), answers.authModels.split(' ') )
     var pass = false;
@@ -28,11 +32,18 @@ cliFunctions.runFunction = () => {
       }
     }
 
+    if(providerNames.length){
+      providerNames.forEach(obj=> {
+        installObj.backend[obj].forEach(ins=> install.push(ins))
+      })
+    }
+
     if (answers.emailAuth) {
       var emailConfig = await prompt(questions.nodemailer);
       providerNames.push("local");
-
       providerData.push(emailConfig);
+
+      installObj.backend.email.forEach(ins=> install.push(ins))
     }
 
     var configObj = {
@@ -48,7 +59,8 @@ cliFunctions.runFunction = () => {
       configObj[tempId] = providerData[i].clientId;
       configObj[tempSec] = providerData[i].clientSecret;
     }
-
+    console.log(install)
+    // pass install array for installing packages
     init(
       answers.unAuthRoutes.split(" "),
       answers.authRoutes.split(" "),
@@ -60,18 +72,10 @@ cliFunctions.runFunction = () => {
   });
 };
 
-// cliFunctions.firebaseFunction = () => {
-//   prompt(questions.firebaseSetup).then(async (answers) => {
-//     if (answers.services.includes("authentication")) {
-//       var firebaseAuthAnswers = await prompt(questions.firebaseAuth);
-//     }
-//     if (answers.services.includes("database")) {
-//       var dbType = await prompt(questions.firebaseDb);
-//     }
-//   });
-// };
 
 cliFunctions.reactFunction = () => {
+  var install= []
+  installObj.react.standardCsr.forEach(ins=> install.push(ins))
   prompt(questions.reactSetup).then(async (answers) => {
     var reactObj={
         redux: false,
@@ -81,24 +85,33 @@ cliFunctions.reactFunction = () => {
         var routeAnswers= await prompt(questions.reactRouting)
         reactObj.routing= routeAnswers.routes.split(' ')
 
-        fileFunctions.reactFirebaseSetup(reactObj, false, answers.projectName)
+        installObj.react.routing.forEach(ins=> install.push(ins))
+
+        fileFunctions.reactFirebaseSetup(reactObj, false, answers.projectName, install)
     }else{
-        fileFunctions.reactFirebaseSetup(reactObj, false, answers.projectName)
+        fileFunctions.reactFirebaseSetup(reactObj, false, answers.projectName, install)
     }
+    //console.log(install)
   });
 };
 
 cliFunctions.reactFirebaseFunction = async () => {
+  var install= []
+  installObj.react.standardCsr.forEach(ins=> install.push(ins))
+  installObj.firebase.forEach(ins=> install.push(ins))
+
   var reactSetupAnswers = await prompt(questions.reactSetup);
   var reactObj= {
     redux: false,
     routing: false
   }
   if(reactSetupAnswers.routing){
+      installObj.react.routing.forEach(ins=> install.push(ins))
       var routeAnswers= await prompt(questions.reactRouting)
       reactObj.routing= routeAnswers.routes.split(' ')
   }
 
+  
   var firebaseAnswers = await prompt(questions.firebaseSetup);
   var firebaseObj= {
         firestore: firebaseAnswers.services.includes('firestore'),
@@ -106,5 +119,6 @@ cliFunctions.reactFirebaseFunction = async () => {
         storage: firebaseAnswers.services.includes('storage'),
         analytics: firebaseAnswers.services.includes('analytics')
     }
-    fileFunctions.reactFirebaseSetup(reactObj, firebaseObj, reactSetupAnswers.projectName)
+  // console.log(install)
+  fileFunctions.reactFirebaseSetup(reactObj, firebaseObj, reactSetupAnswers.projectName, install)
 };

@@ -19,7 +19,7 @@ const additionalImports= (routing= false)=>{
   // array of desired routes will be passed to routing if not false
   var addImports=``
   if(routing){
-    addImports+= `import {Route, Switch} from 'react-router-dom';\n`
+    addImports+= `import {Route, Switch, BrowserRouter as Router} from 'react-router-dom';\n`
     routing.forEach(route=>{
       addImports+= `import ${route} from './Components/${route}';\n`
     })
@@ -39,6 +39,8 @@ const returnStatement=(routing= false)=>{
   else{
     rStatement+= `
       <div>
+      <span>Try changing routes</span>
+      <Router>
       <Switch>
       `
     routing.forEach(route=>{
@@ -48,6 +50,7 @@ const returnStatement=(routing= false)=>{
     })
     rStatement+= `
       </Switch>
+      </Router>
       </div>
       `
   }

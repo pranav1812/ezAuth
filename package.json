@@ -1,6 +1,6 @@
 {
   "name": "ez-auth",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "commandline tool to create a boiler plate for node js and authentication on the top of passport JS, mongoose supported by default",
   "main": "cli.js",
   "scripts": {
@@ -19,7 +19,9 @@
     "boiler-plate",
     "setup",
     "create-project",
-    "passportJS"
+    "passportJS",
+    "react-boiler-plate",
+    "react-firebase-boiler-plate"
   ],
   "author": "pranav_vohra",
   "license": "MIT",
