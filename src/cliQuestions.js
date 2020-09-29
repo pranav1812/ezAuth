@@ -7,7 +7,7 @@ questions.runQuestions= [
         type: 'confirm',
         name: 'npmInit',
         message: 'do you want to initialise npm? : enter y if you have not run npm init yet... ',
-        default: false
+        default: true
     },
 
     {
@@ -115,15 +115,15 @@ questions.routeSelection=[
 ]
 
 questions.providerQuestions=[
-    // {
-    //     type: 'input',
-    //     name: 'clientId',
-    //     message: 'client id'
-    // },
+    {
+        type: 'input',
+        name: 'clientId',
+        message: 'client id or consumer key'
+    },
     {
         type: 'input',
         name: 'clientSecret',
-        message: 'client secret'
+        message: 'client secret or consumer secret'
     }
 ]
 

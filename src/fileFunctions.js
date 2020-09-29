@@ -60,9 +60,9 @@ fileFunctions.reactFirebaseSetup=(react, firebase, projectFolderName, installArr
     installation.on('error', (err)=> console.log(err))
     installation.on('close', (code)=> {
         if(code!= 0){
-            console.log("error aa gya bc")
+            console.log("some error occurred")
         }else{
-            console.log("chal gya bc")
+            console.log("done")
         }
     })
 

@@ -1,6 +1,6 @@
 {
   "name": "ez-auth",
-  "version": "1.2.0",
+  "version": "1.4.0",
   "description": "commandline tool to create a boiler plate for node js and authentication on the top of passport JS, mongoose supported by default",
   "main": "cli.js",
   "scripts": {
