@@ -1,6 +1,7 @@
 // copy, export, etc 
 const fs= require('fs')
 const process = require('process')
+const {spawn}= require('child_process')
 
 var fileFunctions= {}
 module.exports= fileFunctions
@@ -16,7 +17,7 @@ fileFunctions.packageJson= (obj)=>{
     })
 }
 
-fileFunctions.reactFirebaseSetup=(react, firebase, projectFolderName)=>{
+fileFunctions.reactFirebaseSetup=(react, firebase, projectFolderName, installArr)=>{
     
     fs.mkdirSync(process.cwd()+'/'+projectFolderName)
     fs.mkdirSync(process.cwd()+'/'+projectFolderName+'/'+'src')
@@ -24,6 +25,7 @@ fileFunctions.reactFirebaseSetup=(react, firebase, projectFolderName)=>{
     fs.mkdirSync(process.cwd()+'/'+projectFolderName+'/'+'src/Components')
     var publicFiles= fs.readdirSync(__dirname+'/templates/react-clientside/public')
     
+    fs.copyFileSync(__dirname+'/templates/react-clientside/package.json', process.cwd()+'/'+projectFolderName+'/package.json')
     for(var i=0; i<publicFiles.length; i++){
         var srcFolder= __dirname+'/templates/react-clientside/public/'
         var locFolder= process.cwd()+'/'+projectFolderName+'/'+'public/'
@@ -50,5 +52,19 @@ fileFunctions.reactFirebaseSetup=(react, firebase, projectFolderName)=>{
         var comp= require('./templates/react-clientside/src/firebase')(firestore, auth, storage, analytics)
         fs.writeFileSync(process.cwd()+'/'+projectFolderName+'/'+'src/firebase.js', comp)
     }
+    
+    process.chdir(`${projectFolderName}`);
+    var installation= spawn('npm', ['i', ...installArr])
+    console.log(process.cwd())
+    console.log("might take a couple of minutes...")
+    installation.on('error', (err)=> console.log(err))
+    installation.on('close', (code)=> {
+        if(code!= 0){
+            console.log("error aa gya bc")
+        }else{
+            console.log("chal gya bc")
+        }
+    })
+
 }
 

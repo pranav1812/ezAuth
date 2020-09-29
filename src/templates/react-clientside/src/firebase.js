@@ -1,7 +1,7 @@
 const exportFirebase= (firestore= false, auth= false, storage= false, analytics= false)=>{
     
     return `
-        import * as firebase from 'firebase;
+        import * as firebase from 'firebase';
         ${additionalImports(firestore, auth, storage, analytics)}
 
         export const app= firebase.initializeApp(firebaseConfig)
