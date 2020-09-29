@@ -1,5 +1,7 @@
 // all file system manipulation functions
 const util = require("./util/util.js");
+const process = require('process');
+const {spawn}= require('child_process');
 const routes = ["blogs"];
 const authRoutes = ["user", "doctor"];
 const relPath = "../testServer";
@@ -17,7 +19,7 @@ const config = {
 const register = true;
 const signin = true;
 
-function init(routes, authRoutes, providers, config, staticClient, relPath) {
+function init(routes, authRoutes, providers, config, staticClient, relPath, installArr) {
   const {
     createFolder,
     createRoute,
@@ -54,7 +56,7 @@ function init(routes, authRoutes, providers, config, staticClient, relPath) {
     });
   }
 
-  function create(routes, authRoutes, providers, staticClient, config) {
+  function create(routes, authRoutes, providers, staticClient, config, installArr) {
     intiFolders();
     createDotenv(config);
     createGitignore();
@@ -64,9 +66,22 @@ function init(routes, authRoutes, providers, config, staticClient, relPath) {
     if (authRoutes.length) createPassport_Serialize_Deserialize(authRoutes);
     createServer(routes, authRoutes, providers);
     if (staticClient) createStaticFrontend();
-    console.log("done");
+    console.log("installation might take a couple of minutes");
+    // pass install command
+    var installation= spawn('npm', ['i', ...installArr])
+    // console.log(process.cwd())
+    console.log("might take a couple of minutes...")
+    installation.on('error', (err)=> console.log(err))
+    installation.on('close', (code)=> {
+        if(code!= 0){
+            console.log("some error occured")
+        }else{
+            console.log("done")
+        }
+    })
+
   }
-  create(routes, authRoutes, providers, staticClient, config);
+  create(routes, authRoutes, providers, staticClient, config, installArr);
 }
 // init(routes, authRoutes, providers, config, relPath);
 

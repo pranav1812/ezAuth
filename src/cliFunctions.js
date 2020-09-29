@@ -59,15 +59,16 @@ cliFunctions.runFunction = () => {
       configObj[tempId] = providerData[i].clientId;
       configObj[tempSec] = providerData[i].clientSecret;
     }
-    console.log(install)
-    // pass install array for installing packages
+    // console.log(install)
+    
     init(
       answers.unAuthRoutes.split(" "),
       answers.authRoutes.split(" "),
       providerNames,
       configObj,
       answers.staticFrontend,
-      process.cwd()
+      process.cwd(),
+      install
     );
   });
 };
