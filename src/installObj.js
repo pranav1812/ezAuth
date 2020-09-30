@@ -1,6 +1,6 @@
 module.exports= {
     backend:{
-        standard: ['express', 'mongoose', 'dotenv', 'passport', 'cookie-session', 'cors'],
+        standard: ['express', 'mongoose', 'dotenv', 'passport', 'cookie-session', 'cors', 'lodash'],
         facebook: ['passport-facebook'],
         github: ['passport-github'],
         google: ['passport-google-oauth2'],

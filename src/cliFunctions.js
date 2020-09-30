@@ -52,6 +52,7 @@ cliFunctions.runFunction = () => {
       SMTP_USER: providerData[providerData.length - 1].email_id,
       SMTP_PASS: providerData[providerData.length - 1].password,
       SMTP_HOST: providerData[providerData.length - 1].service,
+      COOKIE_SECRET: answers.cookieSecret
     };
     for (var i = 0; i < answers.providers.length; i++) {
       var tempId = answers.providers[i].toUpperCase() + "_CLIENT_ID";

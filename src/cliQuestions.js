@@ -17,6 +17,13 @@ questions.runQuestions= [
     },
 
     {
+        type: 'input',
+        name: 'cookieSecret',
+        message: 'enter a cookie secret',
+        default: (Math.random()*1000).toString(36)        
+    },
+
+    {
         type: 'confirm',
         name: 'staticFrontend',
         message: 'do you want demo static frontend?',       
