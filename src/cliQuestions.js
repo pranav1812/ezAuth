@@ -23,12 +23,12 @@ questions.runQuestions= [
         default: (Math.random()*1000).toString(36)        
     },
 
-    {
-        type: 'confirm',
-        name: 'staticFrontend',
-        message: 'do you want demo static frontend?',       
-        default: false
-    },
+    // {
+    //     type: 'confirm',
+    //     name: 'staticFrontend',
+    //     message: 'do you want demo static frontend?',       
+    //     default: false
+    // },
 
     {
         type: 'input',
@@ -60,7 +60,7 @@ questions.runQuestions= [
         type: 'checkbox',
         name: 'providers',
         message: 'select auth providers',
-        choices:["Facebook", "Twitter", "Github", "Google"]
+        choices:["Facebook", "Github", "Google"]
     }
 ]
 

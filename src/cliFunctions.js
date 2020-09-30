@@ -13,6 +13,12 @@ cliFunctions.runFunction = () => {
   installObj.backend.standard.forEach(obj=> install.push(obj))
 
   prompt(questions.runQuestions).then(async (answers) => {
+    
+    var configObj = {
+      MONGODB_URI: answers.mongoUrl,
+      PORT: 3000,
+      COOKIE_SECRET: answers.cookieSecret
+    };
     // tool(answers.models.split(' '), answers.authModels.split(' ') )
     var pass = false;
     if (answers.npmInit) {
@@ -43,17 +49,14 @@ cliFunctions.runFunction = () => {
       providerNames.push("local");
       providerData.push(emailConfig);
 
+      configObj['SMTP_USER']= providerData[providerData.length - 1].email_id,
+      configObj['SMTP_PASS']= providerData[providerData.length - 1].password,
+      configObj['SMTP_HOST']= providerData[providerData.length - 1].service,
+
       installObj.backend.email.forEach(ins=> install.push(ins))
     }
 
-    var configObj = {
-      MONGODB_URI: answers.mongoUrl,
-      PORT: 3000,
-      SMTP_USER: providerData[providerData.length - 1].email_id,
-      SMTP_PASS: providerData[providerData.length - 1].password,
-      SMTP_HOST: providerData[providerData.length - 1].service,
-      COOKIE_SECRET: answers.cookieSecret
-    };
+    
     for (var i = 0; i < answers.providers.length; i++) {
       var tempId = answers.providers[i].toUpperCase() + "_CLIENT_ID";
       var tempSec = answers.providers[i].toUpperCase() + "_CLIENT_SECRET";
@@ -67,7 +70,7 @@ cliFunctions.runFunction = () => {
       answers.authRoutes.split(" "),
       providerNames,
       configObj,
-      answers.staticFrontend,
+      false,
       process.cwd(),
       install
     );
